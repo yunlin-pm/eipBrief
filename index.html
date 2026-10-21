@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bibian EIP 上線操作說明會</title>
+  <style>
+    :root {
+      --navy-900:#082f55;
+      --navy-800:#0b4777;
+      --blue:#2d92cf;
+      --blue-700:#176da5;
+      --ink:#102d48;
+      --muted:#60758a;
+      --line:#dbe5ee;
+      --surface:#fff;
+      --bg:#eef4fb;
+      --green:#20905a;
+      --green-soft:#eef9f3;
+      --orange:#df9a12;
+      --orange-soft:#fff8e9;
+      --purple:#7056a6;
+      --purple-soft:#f4f1fb;
+      --shadow:0 12px 32px rgba(23,50,77,.12);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#182534;font-family:"Microsoft JhengHei","Noto Sans TC",Arial,sans-serif;color:var(--ink)}
+    body{overflow:hidden}
+    .deck{width:100vw;height:100vh;position:relative;display:grid;place-items:center}
+    .slide-shell{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .28s ease;overflow:hidden}
+    .slide-shell.active{opacity:1;pointer-events:auto}
+    .slide{position:absolute;left:50%;top:50%;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(135deg,#f7faff,#edf3fb);transform-origin:center center}
+    .hero{height:232px;padding:30px 96px;color:#fff;background:linear-gradient(135deg,var(--navy-900),var(--navy-800));position:relative;overflow:hidden}
+    .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:#fff;opacity:.05}
+    .hero::before{width:380px;height:380px;right:18px;top:-130px}
+    .hero::after{width:250px;height:250px;right:-15px;top:135px;background:#77b6e5;opacity:.09}
+    .hero-wave{position:absolute;left:0;right:0;bottom:0;height:32px;background:rgba(255,255,255,.06);clip-path:polygon(0 0,27% 100%,72% 15%,100% 75%,100% 100%,0 100%)}
+    .pill{display:block;width:max-content;color:#9fcce9;font-size:18px;font-weight:700;letter-spacing:1.5px;position:relative;z-index:1}
+    h1{margin:12px 0 5px;font-size:50px;line-height:1.17;letter-spacing:1px;position:relative;z-index:1}
+    .hero-en{font-size:22px;color:#d6e5f2;letter-spacing:1px;position:relative;z-index:1}
+    .hero-sub{margin-top:10px;font-size:24px;font-weight:600;position:relative;z-index:1}
+    .canvas{padding:38px 96px 0}
+    .card{background:var(--surface);border-radius:18px;box-shadow:var(--shadow)}
+    .launch-summary{height:136px;display:grid;grid-template-columns:1.15fr 1fr 1.2fr;position:relative;padding-left:10px}
+    .launch-summary::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;border-radius:5px;background:var(--green)}
+    .summary-item{padding:27px 44px;position:relative}
+    .summary-item+.summary-item::before{content:"";position:absolute;left:0;top:29px;width:2px;height:78px;background:var(--line)}
+    .summary-label{font-size:22px;font-weight:700;color:#3c5873;margin-bottom:12px}
+    .summary-value{font-size:25px;font-weight:700;color:#152d45}
+    .agenda{height:590px;margin-top:40px;padding:30px 44px}
+    .section-title{font-size:27px;font-weight:700;padding-bottom:17px;border-bottom:2px solid var(--line)}
+    .agenda-line{display:flex;align-items:center;gap:18px;font-size:22px;font-weight:700;margin-top:30px}
+    .agenda-line::before{content:"";width:12px;height:12px;border-radius:50%;background:#1676b8;flex:none}
+    .steps{margin:28px 0 0 44px}
+    .step-title{display:flex;align-items:center;gap:14px;font-size:20px;font-weight:700;color:#334f69;margin:20px 0}
+    .step-no{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#eaf3fa;color:var(--blue-700);font-size:16px}
+    .flow{height:78px;margin:24px 0 30px 44px;display:grid;grid-template-columns:240px 44px 210px 44px 260px 44px 210px 44px 1fr;align-items:center}
+    .flow-box{height:60px;border:2px solid #9db8d0;border-radius:11px;background:#f8fbfe;display:grid;place-items:center;text-align:center;padding:0 12px;font-size:19px;font-weight:700;color:#27445e;line-height:1.4}
+    .flow-box.approved{background:var(--green-soft);border-color:var(--green);color:#207449}
+    .flow-box.final{height:78px;background:var(--orange-soft);border-color:#e5a72b;color:#5e480f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.25}
+    .flow-box small{display:block;margin:0;color:#8a6510;font-size:17px;font-weight:500;line-height:1.25}
+    .arrow{position:relative;height:2px;background:var(--orange);margin:0 10px}
+    .arrow::after{content:"";position:absolute;right:-1px;top:-6px;width:12px;height:12px;border-top:2px solid var(--orange);border-right:2px solid var(--orange);transform:rotate(45deg)}
+    .step-bottom{display:block;margin-left:0}
+    .step-bottom .step-title{margin:20px 0}
+
+    /* Scope */
+    .principle{height:112px;padding:22px 42px;margin-bottom:40px}
+    .principle-label{font-size:18px;font-weight:700;color:#405d77;margin-bottom:12px}
+    .principle-flow{display:grid;grid-template-columns:310px 56px 340px 56px 350px 56px 1fr;align-items:center}
+    .principle-chip{height:40px;border-radius:20px;display:grid;place-items:center;font-size:19px;font-weight:700}
+    .chip-blue{background:#eaf4fb;color:#176da5}.chip-green{background:#edf8f2;color:#22784e}.chip-slate{background:#eef3fa;color:#355979}.chip-gold{background:#fff5db;color:#80600e}
+    .scope-main{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+    .phase-card{height:454px;overflow:hidden}
+    .phase-head{height:102px;padding:18px 28px;display:grid;grid-template-columns:48px 1fr auto;column-gap:16px;align-items:center}
+    .phase1 .phase-head{background:var(--green-soft)}.phase2 .phase-head{background:#eef5fc}
+    .phase-number{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:21px;font-weight:700}
+    .phase1 .phase-number{background:var(--green)}.phase2 .phase-number{background:#287db7}
+    .phase-name{font-size:25px;font-weight:700}.phase1 .phase-name{color:#207449}.phase2 .phase-name{color:#245f8c}
+    .phase-goal{font-size:19px;color:#60758a;margin-top:7px}
+    .phase-date{align-self:start;margin-top:7px;font-size:14px;color:#8aa196}
+    .phase2 .phase-date{color:#8099ae}
+    .phase-body{padding:28px;display:grid;gap:18px}
+    .scope-item{background:#f8fbfd;border-radius:13px;padding:18px 26px;min-height:86px}
+    .scope-item h3{font-size:20px;margin:0 0 10px}.scope-item p{font-size:17px;color:#60758a;margin:0}
+    .form-scope{min-height:190px}
+    .form-scope .divider{height:1px;background:#dce6ee;margin:14px 0}
+    .scope-line{display:flex;gap:14px;align-items:flex-start;font-size:19px;margin-top:13px;color:#355979}
+    .scope-dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:#6f9fbe;flex:none}
+    .scope-line.current{color:#674d12;font-weight:700}.scope-line.current .scope-dot{background:#e5a21a}
+    .future-strip{height:104px;margin-top:26px;padding:18px 30px;display:grid;grid-template-columns:1fr 360px;align-items:center;border-left:8px solid var(--purple)}
+    .future-title{font-size:22px;font-weight:700;color:#5e478d}
+    .future-items{font-size:18px;font-weight:700;color:#4d4860;text-align:left;letter-spacing:.3px;margin-top:9px}
+    .future-note{font-size:15px;color:#7f7891;text-align:right}
+    .scope-foot{text-align:center;margin-top:18px;font-size:16px;color:#72869a}
+
+    .controls{position:fixed;right:22px;bottom:20px;display:flex;gap:10px;z-index:10;opacity:.25;transition:.2s}
+    .controls:hover{opacity:1}
+    .controls button{width:42px;height:42px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(12,36,59,.82);color:white;font-size:20px;cursor:pointer}
+    .page-indicator{position:fixed;left:24px;bottom:24px;color:#fff;background:rgba(12,36,59,.7);padding:8px 13px;border-radius:999px;font-size:13px;z-index:10;opacity:.4}
+    @media print{
+      @page{size:13.333in 7.5in;margin:0}
+      html,body{background:#fff;overflow:visible}
+      .deck{display:block;width:auto;height:auto}
+      .slide-shell{position:relative;display:block;opacity:1!important;pointer-events:auto;page-break-after:always;width:1920px;height:1080px;overflow:visible}
+      .slide{position:relative;left:auto;top:auto;transform:none!important}
+      .controls,.page-indicator{display:none}
+    }
+  </style>
+<style>
+html{scroll-behavior:smooth;scroll-padding-top:80px}html,body{background:#eef4fb;overflow:visible}body{font-size:16px;line-height:1.65}.deck{display:block;width:100%;height:auto;max-width:1240px;margin:auto;padding:0 24px 48px}.slide-shell,.slide-shell.active{position:static;opacity:1;pointer-events:auto;overflow:visible}.slide{position:static;width:auto;height:auto;overflow:visible;background:none;transform:none!important}.hero{height:auto;padding:52px 48px;border-radius:0 0 24px 24px}.pill{font-size:14px}h1{font-size:clamp(27px,3.4vw,42px);line-height:1.35}.hero-en{font-size:16px}.hero-sub{font-size:19px}.canvas{padding:28px 0 0}.card{border-radius:16px;box-shadow:0 6px 24px rgba(23,50,77,.07)}.launch-summary{height:auto;grid-template-columns:1.15fr 1fr 1fr}.summary-item{padding:22px 26px}.summary-label{font-size:15px;margin-bottom:6px}.summary-value{font-size:19px}.summary-item+.summary-item::before{top:24px;height:56px}.agenda{height:auto;margin-top:24px;padding:28px 32px}.section-title{font-size:23px}.agenda-line{font-size:19px;margin-top:22px}.steps{margin:16px 0 0 30px}.step-title{font-size:17px;margin:18px 0}.flow{height:auto;margin:20px 0 28px;grid-template-columns:1fr 24px .8fr 24px 1fr 24px .8fr 24px 1.35fr}.flow-box{height:auto;min-height:76px;padding:12px 10px;font-size:15px}.flow-box.final{height:auto;min-height:96px}.flow-box small{font-size:13px}.arrow{margin:0 4px}.slide-shell+.slide-shell{margin-top:40px}.slide-shell+.slide-shell .hero{background:none;color:var(--ink);padding:0 8px 8px;border-radius:0}.slide-shell+.slide-shell .hero h1{font-size:29px;margin:4px 0}.slide-shell+.slide-shell .hero .pill{color:var(--blue-700)}.slide-shell+.slide-shell .hero-sub{font-size:17px;color:var(--muted)}.slide-shell+.slide-shell .hero::before,.slide-shell+.slide-shell .hero::after,.slide-shell+.slide-shell .hero-wave{display:none}.principle{height:auto;padding:24px 28px;margin-bottom:24px}.principle-label{font-size:16px}.principle-flow{grid-template-columns:1fr 24px 1.1fr 24px 1.1fr 24px 1fr}.principle-chip{height:auto;min-height:44px;font-size:14px;padding:8px 12px}.scope-main{gap:24px;align-items:stretch}.phase-card{height:auto}.phase-head{height:auto;min-height:106px;padding:20px;grid-template-columns:40px 1fr;gap:12px}.phase-number{width:40px;height:40px;font-size:18px}.phase-name{font-size:21px}.phase-goal{font-size:15px;margin-top:3px}.phase-date{grid-column:2;margin:0;font-size:13px}.phase-body{padding:20px;gap:14px}.scope-item{padding:18px;min-height:100px}.scope-item h3{font-size:17px;margin-bottom:6px}.scope-item p{font-size:14px}.form-scope{min-height:190px}.scope-line{font-size:15px;gap:10px}.future-strip{height:auto;min-height:100px;margin-top:24px;padding:22px 26px;grid-template-columns:1fr auto;gap:20px}.future-title{font-size:20px}.future-items{font-size:16px}.future-note{font-size:13px}.scope-foot{font-size:13px;margin-top:20px}.jump-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;position:relative;z-index:1}.jump-nav a{color:white;text-decoration:none;border:1px solid #ffffff55;border-radius:999px;padding:7px 16px;font-size:14px}.jump-nav a:hover{background:#ffffff20}a:focus-visible{outline:3px solid #e5a72b;outline-offset:4px}
+@media(max-width:850px){.deck{padding:0 16px 32px}.hero{padding:36px 26px}.launch-summary{grid-template-columns:1fr}.summary-item{padding:18px 24px}.summary-item+.summary-item::before{top:0;left:24px;right:24px;width:auto;height:1px}.agenda{padding:24px}.steps{margin-left:0}.flow{display:flex;flex-direction:column;gap:12px;margin:20px 0}.flow-box,.flow-box.final{width:100%;min-height:54px}.flow .arrow{height:20px;width:2px;margin:0;background:var(--orange)}.flow .arrow::after{top:auto;bottom:0;right:-5px;transform:rotate(135deg)}.scope-main{grid-template-columns:1fr}.principle-flow{display:flex;flex-direction:column;gap:10px}.principle-chip{width:100%}.principle-flow .arrow{width:2px;height:14px;margin:0}.principle-flow .arrow::after{top:auto;bottom:0;right:-5px;transform:rotate(135deg)}.future-strip{grid-template-columns:1fr;gap:8px}.future-note{text-align:left}.phase-body[style]{grid-template-columns:1fr!important}.hero-en{font-size:13px}.hero-sub{font-size:17px}}
+@media print{@page{size:A4 portrait;margin:12mm}html,body{background:white}.deck{max-width:none;padding:0}.slide-shell,.slide-shell.active{width:auto;height:auto;page-break-after:auto;break-after:auto}.slide{width:auto;height:auto}.hero{padding:24px;print-color-adjust:exact;-webkit-print-color-adjust:exact}.jump-nav{display:none}.card{box-shadow:none;border:1px solid #dbe5ee;break-inside:avoid}.scope-main{gap:14px}.slide-shell+.slide-shell{margin-top:24px}.flow-box{font-size:12px}.flow-box small{font-size:11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<style>
+/* Compact opening banner */
+.slide-shell:first-child .hero{padding:26px 48px 28px}
+.slide-shell:first-child h1{margin:6px 0 3px}
+.slide-shell:first-child .hero-sub{margin-top:6px}
+.slide-shell:first-child .jump-nav{margin-top:14px}
+.slide-shell:first-child .jump-nav a{padding:5px 16px}
+@media(max-width:850px){.slide-shell:first-child .hero{padding:22px 26px 24px}}
+</style>
+<style>
+/* Tighter spacing throughout the page */
+body{line-height:1.5}
+.slide-shell:first-child .hero{padding:20px 40px 22px}
+.slide-shell:first-child .jump-nav{margin-top:10px}
+.canvas{padding-top:18px}
+.summary-item{padding:16px 24px}
+.summary-label{margin-bottom:4px}
+.summary-item+.summary-item::before{top:18px;height:44px}
+.agenda{margin-top:18px;padding:20px 28px}
+.section-title{padding-bottom:10px}
+.agenda-line{margin-top:16px}
+.steps{margin-top:10px}
+.step-title,.step-bottom .step-title{margin:12px 0}
+.step-no{width:28px;height:28px}
+.flow{margin:14px 0 18px}
+.flow-box{min-height:60px;padding:8px 10px}
+.flow-box.final{min-height:76px}
+.slide-shell+.slide-shell{margin-top:28px}
+.slide-shell+.slide-shell .hero{padding-bottom:4px}
+.principle{padding:16px 24px;margin-bottom:18px}
+.principle-label{margin-bottom:8px}
+.principle-chip{min-height:36px;padding:6px 10px}
+.scope-main{gap:18px}
+.phase-head{min-height:88px;padding:14px 18px;column-gap:10px;row-gap:4px}
+.phase-body{padding:14px;gap:10px}
+.scope-item{min-height:80px;padding:12px 16px}
+.scope-item h3{margin-bottom:4px}
+.form-scope{min-height:154px}
+.form-scope .divider{margin:10px 0}
+.scope-line{margin-top:9px}
+.future-strip{min-height:80px;margin-top:18px;padding:16px 22px}
+.future-items{margin-top:5px}
+.scope-foot{margin-top:12px}
+.deck{padding-bottom:28px}
+@media(max-width:850px){
+.slide-shell:first-child .hero{padding:18px 24px 20px}
+.agenda{padding:18px 20px}
+.summary-item{padding:14px 20px}
+.flow{gap:8px;margin:12px 0 16px}
+.flow-box,.flow-box.final{min-height:46px}
+.flow .arrow{height:14px}
+.principle-flow{gap:7px}
+.principle{padding:14px 18px}
+.future-strip{gap:6px}
+}
+</style>
+<style>.official-url{position:relative;z-index:1;margin-top:10px;font-size:15px;color:#d6e5f2;overflow-wrap:anywhere}.official-url a{color:#fff;text-underline-offset:3px}.official-url a:hover{color:#9fcce9}</style><style>
+@media(max-width:850px){
+  .launch-summary .summary-item+.summary-item::before{
+    top:0;bottom:auto;left:20px;right:20px;width:auto;height:1px;
+  }
+}
+</style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide-shell active">
+      <article class="slide">
+        <header class="hero">
+          
+          <h1>Bibian EIP 比比昂企業資訊入口平台</h1>
+          <div class="hero-en">Bibian Enterprise Information Portal</div>
+          <div class="hero-sub">公司資訊與員工作業的統一入口</div><div class="official-url">網址：<a href="https://odoo.int.bibian.co.jp/web" target="_blank" rel="noopener noreferrer">https://odoo.int.bibian.co.jp/web ↗</a></div>
+          <div class="hero-wave"></div>
+        </header>
+        <div class="canvas">
+          <section class="card launch-summary">
+            <div class="summary-item"><div class="summary-label">本次上線</div><div class="summary-value">CBS 請款單線上申請與簽核</div></div>
+            <div class="summary-item"><div class="summary-label">試運期間</div><div class="summary-value">至 11 月 20 日止</div></div>
+            <div class="summary-item"><div class="summary-label">後續功能</div><div class="summary-value">依上線公告陸續開放</div></div>
+          </section>
+          <section class="card agenda" id="agenda">
+            <div class="section-title">會議內容</div>
+            <div class="agenda-line">NetBird 安裝與使用說明</div>
+            <div class="agenda-line">EIP 操作說明</div>
+            <div class="steps">
+              <div class="step-title"><span class="step-no">1</span>使用 Google 帳號登入</div>
+              <div class="step-title"><span class="step-no">2</span>請款單申請與簽核說明</div>
+              <div class="flow">
+                <div class="flow-box">申請人送出請款單</div><div class="arrow"></div>
+                <div class="flow-box">主管簽核</div><div class="arrow"></div>
+                <div class="flow-box">財務單位資料複核</div><div class="arrow"></div>
+                <div class="flow-box approved">核准完成</div><div class="arrow"></div>
+                <div class="flow-box final">申請人列印請款單並檢附正本單據<small>（於 2 個工作天內送交財務）</small></div>
+              </div>
+              <div class="step-bottom">
+                <div class="step-title"><span class="step-no">3</span>簽核代理人設定說明</div>
+                <div class="step-title"><span class="step-no">4</span>Q&amp;A</div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="slide-shell" id="scope">
+      <article class="slide">
+        <header class="hero">
+          <span class="pill">EIP 整體 Scope</span>
+          <h1>EIP 整體規劃範圍</h1>
+          <div class="hero-sub">從核心流程開始，逐步成為公司資訊與員工作業的統一入口</div>
+          <div class="hero-wave"></div>
+        </header>
+        <div class="canvas">
+          <section class="card principle">
+            <div class="principle-label">導入原則</div>
+            <div class="principle-flow">
+              <div class="principle-chip chip-blue">CBS 首個實際案例</div><div class="arrow"></div>
+              <div class="principle-chip chip-green">建立及驗證共用框架</div><div class="arrow"></div>
+              <div class="principle-chip chip-slate">BBN／ASL 依循框架導入</div><div class="arrow"></div>
+              <div class="principle-chip chip-gold">差異與特例另行盤點</div>
+            </div>
+          </section>
+          <div class="scope-main">
+            <section class="card phase-card phase1">
+              <div class="phase-head">
+                <div class="phase-number">1</div>
+                <div><div class="phase-name">Phase 1｜優先導入</div><div class="phase-goal">建立 EIP 基礎功能與核心流程</div></div>
+                <div class="phase-date">預計 2026/04</div>
+              </div>
+              <div class="phase-body">
+                <div class="scope-item"><h3>組織、帳號與權限</h3><p>部門・人員・帳號角色</p></div>
+                <div class="scope-item form-scope">
+                  <h3>表單申請與簽核</h3><p>表單申請・簽核・進度追蹤</p><div class="divider"></div>
+                  <div class="scope-line current"><span class="scope-dot"></span><span>本次上線：CBS—請款單</span></div>
+                  <div class="scope-line"><span class="scope-dot"></span><span><b>後續持續：</b>導入其他行政類、資訊類表單</span></div>
+                </div>
+              </div>
+            </section>
+            <section class="card phase-card phase2">
+              <div class="phase-head">
+                <div class="phase-number">2</div>
+                <div><div class="phase-name">Phase 2｜後續導入</div><div class="phase-goal">擴充員工日常作業與資訊入口</div></div>
+                <div class="phase-date">預計 2027/10</div>
+              </div>
+              <div class="phase-body" style="grid-template-columns:1fr 1fr">
+                <div class="scope-item"><h3>工作入口與企業溝通</h3><p>待辦・公告・通知</p></div>
+                <div class="scope-item"><h3>文件與知識管理</h3><p>規章・操作手冊・學習內容</p></div>
+                <div class="scope-item"><h3>行政資源與員工服務</h3><p>意見箱・會議室預約・活動紀錄</p></div>
+                <div class="scope-item"><h3>員工任職流程</h3><p>報到・異動・離職作業</p></div>
+              </div>
+            </section>
+          </div>
+          <section class="card future-strip">
+            <div>
+              <div class="future-title">Phase 3｜未來擴充</div>
+              <div class="future-items">設備管理　｜　營運資訊彙整　｜　ERP 財務與採購整合</div>
+            </div>
+            <div class="future-note">依實際需求及優先順序評估導入</div>
+          </section>
+          <div class="scope-foot">本 Scope 為整體規劃方向，各項功能將依需求、優先順序及實際執行情況分階段開放。</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+</body>
+</html>
